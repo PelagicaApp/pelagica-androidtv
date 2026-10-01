@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Hand-converted from pelagica_logo.svg; groups mirror the SVG's transforms so strokes scale correctly. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="1080"
+    android:viewportHeight="1080">
+  <group android:scaleX="0.5"
+      android:scaleY="0.5"
+      android:translateX="270"
+      android:translateY="270">
+      <group
+          android:scaleX="1.023539"
+          android:scaleY="1.023539">
+          <group
+              android:rotation="-30.83189"
+              android:translateX="-195.83597"
+              android:translateY="344.95732">
+
+              <!-- Bell -->
+              <group
+                  android:scaleX="0.588066"
+                  android:scaleY="0.588066"
+                  android:translateX="207.994149"
+                  android:translateY="59.045083">
+                  <path
+                      android:fillAlpha="0.97"
+                      android:fillColor="#FFFFFF"
+                      android:fillType="evenOdd"
+                      android:pathData="M543.455,0C843.396,0 1086.91,243.514 1086.91,543.455C1086.91,843.396 831.123,611.031 531.182,611.031C231.241,611.031 0,843.396 0,543.455C-0,243.514 243.514,0 543.455,0ZM543.455,82.521C288.923,82.521 82.275,268.362 82.275,497.265C82.275,726.168 278.508,548.837 533.04,548.837C787.572,548.837 1004.634,726.168 1004.634,497.265C1004.634,268.362 797.987,82.521 543.455,82.521Z"
+                      android:strokeAlpha="0.97"
+                      android:strokeColor="#FFFFFF"
+                      android:strokeLineCap="round"
+                      android:strokeLineJoin="round"
+                      android:strokeWidth="83.07" />
+              </group>
+
+              <!-- Tentacles: the same path, placed four times -->
+              <group
+                  android:scaleX="0.93933"
+                  android:scaleY="0.93933"
+                  android:translateX="10.623391"
+                  android:translateY="59.473426">
+                  <path
+                      android:pathData="M475.233,489.798C475.233,489.798 426.945,615.921 486.246,713.344C540.729,802.853 490.482,887.01 475.233,959.866"
+                      android:strokeAlpha="0.97"
+                      android:strokeColor="#FFFFFF"
+                      android:strokeLineCap="round"
+                      android:strokeLineJoin="round"
+                      android:strokeWidth="52.01" />
+              </group>
+              <group
+                  android:scaleX="0.93933"
+                  android:scaleY="0.93933"
+                  android:translateX="131.578376"
+                  android:translateY="45.945565">
+                  <path
+                      android:pathData="M475.233,489.798C475.233,489.798 426.945,615.921 486.246,713.344C540.729,802.853 490.482,887.01 475.233,959.866"
+                      android:strokeAlpha="0.97"
+                      android:strokeColor="#FFFFFF"
+                      android:strokeLineCap="round"
+                      android:strokeLineJoin="round"
+                      android:strokeWidth="52.01" />
+              </group>
+              <group
+                  android:scaleX="0.93933"
+                  android:scaleY="0.93933"
+                  android:translateX="259.69517"
+                  android:translateY="82.550364">
+                  <path
+                      android:pathData="M475.233,489.798C475.233,489.798 426.945,615.921 486.246,713.344C540.729,802.853 490.482,887.01 475.233,959.866"
+                      android:strokeAlpha="0.97"
+                      android:strokeColor="#FFFFFF"
+                      android:strokeLineCap="round"
+                      android:strokeLineJoin="round"
+                      android:strokeWidth="52.01" />
+              </group>
+              <group
+                  android:scaleX="0.93933"
+                  android:scaleY="0.93933"
+                  android:translateX="-113.514621"
+                  android:translateY="94.486711">
+                  <path
+                      android:pathData="M475.233,489.798C475.233,489.798 426.945,615.921 486.246,713.344C540.729,802.853 490.482,887.01 475.233,959.866"
+                      android:strokeAlpha="0.97"
+                      android:strokeColor="#FFFFFF"
+                      android:strokeLineCap="round"
+                      android:strokeLineJoin="round"
+                      android:strokeWidth="52.01" />
+              </group>
+          </group>
+      </group>
+  </group>
+</vector>

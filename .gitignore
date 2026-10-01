@@ -1,0 +1,47 @@
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Kotlin compiler daemon / incremental caches
+.kotlin/
+
+# Local configuration (SDK path, machine-specific settings)
+local.properties
+
+# Android Studio / IntelliJ
+# Most of .idea is per-user and churns constantly; share only the code style.
+*.iml
+.idea/*
+!.idea/codeStyles/
+
+# Android build artifacts
+*.apk
+*.aab
+*.ap_
+*.dex
+/captures/
+.externalNativeBuild/
+.cxx/
+output-metadata.json
+
+# Signing (never commit keystores or their passwords)
+*.jks
+*.keystore
+keystore.properties
+signing.properties
+
+# Secrets
+google-services.json
+*.env
+.env*
+
+# Logs and heap dumps
+*.log
+*.hprof
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.swp
+*~
