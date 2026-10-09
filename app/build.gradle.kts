@@ -50,6 +50,8 @@ dependencies {
     implementation(libs.jellyfin.core)
     // The SDK logs via SLF4J; route it to logcat
     implementation(libs.slf4j.android)
+    // QR code for Quick Connect
+    implementation(libs.zxing.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.test.manifest)

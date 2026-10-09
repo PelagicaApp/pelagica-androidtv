@@ -72,6 +72,9 @@ import app.pelagica.androidtv.ui.theme.Geist
 import app.pelagica.androidtv.ui.theme.InputBorder
 import app.pelagica.androidtv.ui.theme.OnBackground
 import app.pelagica.androidtv.ui.theme.Placeholder
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.EncodeHintType
+import com.google.zxing.qrcode.QRCodeWriter
 
 private val CornerRadius = 12.dp
 private val RingWidth = 3.dp
@@ -277,6 +280,32 @@ fun PelagicaLogo(modifier: Modifier = Modifier) {
         contentDescription = "Pelagica",
         modifier = modifier.size(56.dp),
     )
+}
+
+/** Renders [content] as a QR code: black modules on a white, rounded card. */
+@Composable
+fun QrCode(content: String, modifier: Modifier = Modifier, codeSize: Dp = 200.dp) {
+    val matrix = remember(content) {
+        QRCodeWriter().encode(content, BarcodeFormat.QR_CODE, 0, 0, mapOf(EncodeHintType.MARGIN to 0))
+    }
+    Box(
+        modifier = modifier
+            .clip(RoundedCornerShape(CornerRadius))
+            .background(Color.White)
+            .padding(12.dp),
+    ) {
+        Canvas(Modifier.size(codeSize)) {
+            val cell = size.width / matrix.width
+            for (y in 0 until matrix.height) {
+                for (x in 0 until matrix.width) {
+                    if (matrix[x, y]) {
+                        // Slight overlap avoids hairline gaps between modules.
+                        drawRect(Color.Black, Offset(x * cell, y * cell), Size(cell + 0.5f, cell + 0.5f))
+                    }
+                }
+            }
+        }
+    }
 }
 
 val FormWidth = 520.dp

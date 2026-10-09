@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.map
 import org.jellyfin.sdk.api.client.ApiClient
 import org.jellyfin.sdk.api.client.exception.InvalidStatusException
 import org.jellyfin.sdk.api.client.extensions.authenticateUserByName
+import org.jellyfin.sdk.api.client.extensions.authenticateWithQuickConnect
 import org.jellyfin.sdk.api.client.extensions.authenticationApi
 import org.jellyfin.sdk.api.client.extensions.sessionApi
 import org.jellyfin.sdk.api.client.extensions.userApi
@@ -17,12 +18,15 @@ import org.jellyfin.sdk.discovery.RecommendedServerInfo
 import org.jellyfin.sdk.discovery.RecommendedServerInfoScore
 import org.jellyfin.sdk.discovery.RecommendedServerIssue
 import org.jellyfin.sdk.model.ClientInfo
+import org.jellyfin.sdk.model.api.AuthenticationResult
 
 data class DiscoveredServer(val name: String, val address: String)
 
 data class Server(val address: String, val name: String)
 
 data class Session(val server: Server, val username: String)
+
+data class QuickConnectCode(val code: String, val secret: String)
 
 class JellyfinException(message: String) : Exception(message)
 
@@ -89,8 +93,51 @@ class JellyfinRepository(context: Context) {
             throw JellyfinException("Could not reach the server")
         }
 
+        return completeSignIn(server, result, fallbackName = username)
+    }
+
+    /**
+     * Starts a Quick Connect request. The returned code is entered (or scanned) on a device
+     * where the user is already signed in; poll [isQuickConnectAuthorized] with the secret.
+     */
+    suspend fun initiateQuickConnect(): QuickConnectCode {
+        val result = try {
+            api.authenticationApi.initiateQuickConnect().content
+        } catch (e: InvalidStatusException) {
+            throw JellyfinException(
+                if (e.status == 401) "Quick Connect is disabled on this server" else "Quick Connect failed (HTTP ${e.status})"
+            )
+        } catch (e: Exception) {
+            throw JellyfinException("Could not reach the server")
+        }
+        return QuickConnectCode(code = result.code, secret = result.secret)
+    }
+
+    suspend fun isQuickConnectAuthorized(secret: String): Boolean =
+        try {
+            api.authenticationApi.getQuickConnectState(secret).content.authenticated
+        } catch (e: InvalidStatusException) {
+            // The server forgets requests after a few minutes.
+            throw JellyfinException(if (e.status == 404) "Quick Connect code expired" else "Quick Connect failed (HTTP ${e.status})")
+        } catch (e: Exception) {
+            throw JellyfinException("Could not reach the server")
+        }
+
+    suspend fun signInWithQuickConnect(secret: String): Session {
+        val server = savedServer() ?: throw JellyfinException("No server selected")
+        val result = try {
+            api.authenticationApi.authenticateWithQuickConnect(secret).content
+        } catch (e: InvalidStatusException) {
+            throw JellyfinException("Sign in failed (HTTP ${e.status})")
+        } catch (e: Exception) {
+            throw JellyfinException("Could not reach the server")
+        }
+        return completeSignIn(server, result, fallbackName = null)
+    }
+
+    private fun completeSignIn(server: Server, result: AuthenticationResult, fallbackName: String?): Session {
         val token = result.accessToken ?: throw JellyfinException("Server did not return an access token")
-        val name = result.user?.name ?: username
+        val name = result.user?.name ?: fallbackName ?: "User"
         api.update(accessToken = token)
         prefs.edit {
             putString(KEY_TOKEN, token)
@@ -98,6 +145,9 @@ class JellyfinRepository(context: Context) {
         }
         return Session(server, name)
     }
+
+    fun quickConnectUrl(server: Server, code: String): String =
+        "${server.address.trimEnd('/')}/web/#/quickconnect?code=$code"
 
     /**
      * Restores the previous session. Returns the saved server (without a session) when
